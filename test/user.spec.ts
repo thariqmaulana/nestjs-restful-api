@@ -8,7 +8,6 @@ import { Logger } from 'winston';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { TestService } from './test.service';
 import { TestModule } from './test.module';
-import { userSeeder } from '../prisma/seeders/user.seeder';
 import * as bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
 
@@ -33,7 +32,7 @@ describe('UserController', () => {
 
   describe('POST /api/users', () => {
     beforeEach(async () => {
-      await testService.deleteUser();
+      await testService.deleteAll();
     });
     
     it('should be rejected if request is invalid', async () => {
@@ -51,7 +50,7 @@ describe('UserController', () => {
     });
 
     it('should be rejected if username already exists', async () => {
-      await userSeeder();
+      await testService.createUser();
       const response = await request(app.getHttpServer())
         .post('/api/users')
         .send({
@@ -84,8 +83,8 @@ describe('UserController', () => {
 
   describe('POST /api/users/login', () => {
     beforeEach(async () => {
-      await testService.deleteUser();
-      await userSeeder();
+      await testService.deleteAll();
+      await testService.createUser();
     });
     it('should be rejected if request is invalid', async () => {
       const response = await request(app.getHttpServer())
@@ -144,8 +143,8 @@ describe('UserController', () => {
 
   describe('GET /api/users/current', () => {
     beforeEach(async () => {
-      await testService.deleteUser();
-      await userSeeder();
+      await testService.deleteAll();
+      await testService.createUser();
     });
 
     it('should be rejected if no token', async () => {
@@ -181,8 +180,8 @@ describe('UserController', () => {
 
   describe('PATCH /api/users/current', () => {
     beforeEach(async () => {
-      await testService.deleteUser();
-      await userSeeder();
+      await testService.deleteAll();
+      await testService.createUser();
     });
     
     // it('test nullish', async () => {
@@ -244,8 +243,8 @@ describe('UserController', () => {
 
   describe('DELETE /api/users/current', () => {
     beforeEach(async () => {
-      await testService.deleteUser();
-      await userSeeder();
+      await testService.deleteAll();
+      await testService.createUser();
     });
 
     it('should be rejected if token is invalid', async () => {
