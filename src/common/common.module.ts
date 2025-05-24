@@ -30,12 +30,12 @@ import { AuthMiddleware } from './auth.middleware';
     }),
   ],
   providers: [
-    PrismaService, 
+    PrismaService,
     ValidationService,
     {
       provide: APP_FILTER,
-      useClass: ErrorFilter
-    }
+      useClass: ErrorFilter,
+    },
   ],
   exports: [PrismaService, ValidationService],
 })

@@ -95,10 +95,10 @@ describe('UserController', () => {
       await testService.createContact();
     });
     it('should be rejected if contact is not found', async () => {
-      const testContact = await testService.getContact() as Contact;
+      const testContact = (await testService.getContact()) as Contact;
       const response = await request(app.getHttpServer())
         .get(`/api/contacts/${testContact.id + 1}`)
-        .set('authorization', 'test')
+        .set('authorization', 'test');
 
       logger.error(response.body.errors);
       expect(response.status).toBe(404);
@@ -106,10 +106,10 @@ describe('UserController', () => {
     });
 
     it('should be rejected if token is invalid', async () => {
-      const testContact = await testService.getContact() as Contact;
+      const testContact = (await testService.getContact()) as Contact;
       const response = await request(app.getHttpServer())
         .get(`/api/contacts/${testContact.id + 1}`)
-        .set('authorization', 'salah')
+        .set('authorization', 'salah');
 
       logger.error(response.body.errors);
       expect(response.status).toBe(401);
@@ -117,10 +117,10 @@ describe('UserController', () => {
     });
 
     it('should be able to get contact', async () => {
-      const testContact = await testService.getContact() as Contact;
+      const testContact = (await testService.getContact()) as Contact;
       const response = await request(app.getHttpServer())
         .get(`/api/contacts/${testContact.id}`)
-        .set('authorization', 'test')
+        .set('authorization', 'test');
 
       logger.info(response.body.data);
       expect(response.status).toBe(200);
@@ -139,7 +139,7 @@ describe('UserController', () => {
       await testService.createContact();
     });
     it('should be rejected if contact is not found', async () => {
-      const testContact = await testService.getContact() as Contact;
+      const testContact = (await testService.getContact()) as Contact;
       const response = await request(app.getHttpServer())
         .put(`/api/contacts/${testContact.id + 1}`)
         .set('authorization', 'test')
@@ -156,10 +156,10 @@ describe('UserController', () => {
     });
 
     it('should be rejected if token is invalid', async () => {
-      const testContact = await testService.getContact() as Contact;
+      const testContact = (await testService.getContact()) as Contact;
       const response = await request(app.getHttpServer())
         .put(`/api/contacts/${testContact.id + 1}`)
-        .set('authorization', 'salah')
+        .set('authorization', 'salah');
 
       logger.error(response.body.errors);
       expect(response.status).toBe(401);
@@ -167,7 +167,7 @@ describe('UserController', () => {
     });
 
     it('should be rejected if request is invalid', async () => {
-      const testContact = await testService.getContact() as Contact;
+      const testContact = (await testService.getContact()) as Contact;
       const response = await request(app.getHttpServer())
         .put(`/api/contacts/${testContact.id}`)
         .set('authorization', 'test')
@@ -184,7 +184,7 @@ describe('UserController', () => {
     });
 
     it('should be able to get contact', async () => {
-      const testContact = await testService.getContact() as Contact;
+      const testContact = (await testService.getContact()) as Contact;
       const response = await request(app.getHttpServer())
         .put(`/api/contacts/${testContact.id}`)
         .set('authorization', 'test')
@@ -193,7 +193,7 @@ describe('UserController', () => {
           last_name: 'last update',
           phone: '5678',
           email: 'update@example.com',
-        })
+        });
 
       logger.info(response.body.data);
       expect(response.status).toBe(200);
@@ -212,10 +212,10 @@ describe('UserController', () => {
       await testService.createContact();
     });
     it('should be rejected if contact is not found', async () => {
-      const testContact = await testService.getContact() as Contact;
+      const testContact = (await testService.getContact()) as Contact;
       const response = await request(app.getHttpServer())
         .delete(`/api/contacts/${testContact.id + 1}`)
-        .set('authorization', 'test')
+        .set('authorization', 'test');
 
       logger.error(response.body.errors);
       expect(response.status).toBe(404);
@@ -223,10 +223,10 @@ describe('UserController', () => {
     });
 
     it('should be rejected if token is invalid', async () => {
-      const testContact = await testService.getContact() as Contact;
+      const testContact = (await testService.getContact()) as Contact;
       const response = await request(app.getHttpServer())
         .delete(`/api/contacts/${testContact.id + 1}`)
-        .set('authorization', 'salah')
+        .set('authorization', 'salah');
 
       logger.error(response.body.errors);
       expect(response.status).toBe(401);
@@ -234,10 +234,10 @@ describe('UserController', () => {
     });
 
     it('should be able to delete contact', async () => {
-      const testContact = await testService.getContact() as Contact;
+      const testContact = (await testService.getContact()) as Contact;
       const response = await request(app.getHttpServer())
         .delete(`/api/contacts/${testContact.id}`)
-        .set('authorization', 'test')
+        .set('authorization', 'test');
 
       logger.info(response.body.data);
       expect(response.status).toBe(200);
@@ -253,10 +253,10 @@ describe('UserController', () => {
     });
 
     it('should be rejected if token is invalid', async () => {
-      const testContact = await testService.getContact() as Contact;
+      const testContact = (await testService.getContact()) as Contact;
       const response = await request(app.getHttpServer())
         .get(`/api/contacts/`)
-        .set('authorization', 'salah')
+        .set('authorization', 'salah');
 
       logger.error(response.body.errors);
       expect(response.status).toBe(401);
@@ -266,7 +266,7 @@ describe('UserController', () => {
     it('should be able to get many contacts', async () => {
       const response = await request(app.getHttpServer())
         .get(`/api/contacts`)
-        .set('authorization', 'test')
+        .set('authorization', 'test');
 
       logger.info(response.body);
       expect(response.status).toBe(200);
@@ -277,9 +277,9 @@ describe('UserController', () => {
       const response = await request(app.getHttpServer())
         .get(`/api/contacts`)
         .query({
-          name: 'wrongs'
+          name: 'wrongs',
         })
-        .set('authorization', 'test')
+        .set('authorization', 'test');
 
       logger.info(response.body);
       expect(response.status).toBe(200);
@@ -291,9 +291,9 @@ describe('UserController', () => {
         .get(`/api/contacts`)
         .query({
           size: 5,
-          page: 4
+          page: 4,
         })
-        .set('authorization', 'test')
+        .set('authorization', 'test');
 
       logger.info(response.body);
       expect(response.status).toBe(200);
@@ -305,9 +305,9 @@ describe('UserController', () => {
         .get(`/api/contacts`)
         .query({
           size: 5,
-          page: 2
+          page: 2,
         })
-        .set('authorization', 'test')
+        .set('authorization', 'test');
 
       logger.info(response.body);
       expect(response.status).toBe(200);
@@ -318,9 +318,9 @@ describe('UserController', () => {
       const response = await request(app.getHttpServer())
         .get(`/api/contacts`)
         .query({
-          name: 'test 9'
+          name: 'test 9',
         })
-        .set('authorization', 'test')
+        .set('authorization', 'test');
 
       logger.info(response.body);
       expect(response.status).toBe(200);
@@ -336,9 +336,9 @@ describe('UserController', () => {
       const response = await request(app.getHttpServer())
         .get(`/api/contacts`)
         .query({
-          email: 'test9@example.com'
+          email: 'test9@example.com',
         })
-        .set('authorization', 'test')
+        .set('authorization', 'test');
 
       logger.info(response.body);
       expect(response.status).toBe(200);
@@ -354,9 +354,9 @@ describe('UserController', () => {
       const response = await request(app.getHttpServer())
         .get(`/api/contacts`)
         .query({
-          phone: '12349'
+          phone: '12349',
         })
-        .set('authorization', 'test')
+        .set('authorization', 'test');
 
       logger.info(response.body);
       expect(response.status).toBe(200);
@@ -374,9 +374,9 @@ describe('UserController', () => {
         .query({
           email: 'test9@example.com',
           phone: '12349',
-          name: 'test 9'
+          name: 'test 9',
         })
-        .set('authorization', 'test')
+        .set('authorization', 'test');
 
       logger.info(response.body);
       expect(response.status).toBe(200);

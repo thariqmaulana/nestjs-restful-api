@@ -34,14 +34,14 @@ describe('UserController', () => {
     beforeEach(async () => {
       await testService.deleteAll();
     });
-    
+
     it('should be rejected if request is invalid', async () => {
       const response = await request(app.getHttpServer())
         .post('/api/users')
         .send({
           username: '',
           password: '',
-          name: ''
+          name: '',
         });
 
       logger.error(response.body.errors);
@@ -56,7 +56,7 @@ describe('UserController', () => {
         .send({
           username: 'test',
           password: 'test',
-          name: 'test'
+          name: 'test',
         });
 
       logger.info(response.body.errors);
@@ -70,14 +70,13 @@ describe('UserController', () => {
         .send({
           username: 'test',
           password: 'test',
-          name: 'test'
+          name: 'test',
         });
 
       logger.info(response.body.data);
       expect(response.status).toBe(201);
       expect(response.body.data.username).toBe('test');
       expect(response.body.data.name).toBe('test');
-
     });
   });
 
@@ -92,7 +91,7 @@ describe('UserController', () => {
         .send({
           username: '',
           password: '',
-          name: ''
+          name: '',
         });
 
       logger.error(response.body.errors);
@@ -148,8 +147,9 @@ describe('UserController', () => {
     });
 
     it('should be rejected if no token', async () => {
-      const response = await request(app.getHttpServer())
-        .get('/api/users/current');
+      const response = await request(app.getHttpServer()).get(
+        '/api/users/current',
+      );
 
       logger.error(response.body.errors);
       expect(response.status).toBe(401);
@@ -183,7 +183,7 @@ describe('UserController', () => {
       await testService.deleteAll();
       await testService.createUser();
     });
-    
+
     // it('test nullish', async () => {
     //   const response = await request(app.getHttpServer())
     //     .patch('/api/users/current')
@@ -204,7 +204,7 @@ describe('UserController', () => {
         .set('authorization', 'test')
         .send({
           password: '',
-          name: ''
+          name: '',
         });
 
       logger.error(response.body.errors);
@@ -217,7 +217,7 @@ describe('UserController', () => {
         .patch('/api/users/current')
         .set('authorization', 'test')
         .send({
-          name: 'update'
+          name: 'update',
         });
 
       logger.error(response.body.data);
@@ -230,10 +230,10 @@ describe('UserController', () => {
         .patch('/api/users/current')
         .set('authorization', 'test')
         .send({
-          password: 'update'
+          password: 'update',
         });
 
-      const user = await testService.getUser() as User;
+      const user = (await testService.getUser()) as User;
 
       logger.error(response.body.data);
       expect(response.status).toBe(200);
@@ -266,7 +266,7 @@ describe('UserController', () => {
       expect(response.status).toBe(200);
       expect(response.body.data).toBe(true);
 
-      const user = await testService.getUser() as User;
+      const user = (await testService.getUser()) as User;
       expect(user.token).toBeNull();
     });
   });

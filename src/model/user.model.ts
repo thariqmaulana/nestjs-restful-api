@@ -19,5 +19,5 @@ export class UpdateUserRequest {
 export class UserResponse {
   username: string;
   name: string;
-  token?: string | null
+  token?: string | null;
 }
